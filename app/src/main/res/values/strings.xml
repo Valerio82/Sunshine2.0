@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Sunshine2.0</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="textview_giorno">Giorno</string>
+    <string name="textview_condizioni_meteo">Nuvoloso</string>
+    <string name="textview_temperatura_max">18°</string>
+    <string name="textview_temperatura_min">12°</string>
+    <string name="imageview_icona_tempo">IconaTempo</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="hello_world">Hello world!</string>
+
+</resources>
