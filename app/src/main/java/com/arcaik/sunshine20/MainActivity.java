@@ -1,22 +1,31 @@
 package com.arcaik.sunshine20;
+import android.app.ActionBar;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     private final static String TAG_DT = "dt";
     private final static String TAG_TEMP_MAX = "max";
@@ -36,7 +45,6 @@ public class MainActivity extends ActionBarActivity {
         forecastListView = (ListView) findViewById(R.id.forecastListView);
 
     }
-
     public void onStart() {
         super.onStart();
         final IntentFilter broadcastIntentFilter = new IntentFilter(JSONService.NOTIFICATION);
@@ -49,17 +57,16 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
-
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-                String città = "Frosinone";
-                createUrl(città);
+                //String città = "Roma";
+                //createUrl(città);
+                actionEditText();
                 return true;
             case R.id.action_refresh:
                 getAdapterForecast();
@@ -102,6 +109,7 @@ public class MainActivity extends ActionBarActivity {
             Log.v("WEEKFORECAST", "onReceiver partito");
             bundle = intent.getExtras();
             parseJson();
+            getAdapterForecast();
         }
     };
 
@@ -136,25 +144,25 @@ public class MainActivity extends ActionBarActivity {
         String temp=String.valueOf(time).substring(0,3);
         switch (temp){
             case "Mon":
-                temp="Monday";
+                temp="Lunedì";
                 break;
             case "Tue":
-                temp="Tuesday";
+                temp="Martedì";
                 break;
             case "Wed":
-                temp="Wednesday";
+                temp="Mercoledì";
                 break;
             case "Thu":
-                temp="Thursday";
+                temp="Giovedì";
                 break;
             case "Fri":
-                temp="Friday";
+                temp="Venerdi";
                 break;
             case "Sat":
-                temp="Saturday";
+                temp="Sabato";
                 break;
             case "Sun":
-                temp="Sunday";
+                temp="Domenica";
                 break;
             default:
                 break;
@@ -221,6 +229,23 @@ public class MainActivity extends ActionBarActivity {
         }
         return iconId;
     }
+    public void actionEditText(){
+        ActionBar actionBar=getActionBar();
+        actionBar.setCustomView(R.layout.cercacitta);
+        final EditText search=(EditText)actionBar.getCustomView().findViewById(R.id.searchCitta);
+        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
-
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handle=false;
+                if(actionId== EditorInfo.IME_ACTION_SEND) {
+                    createUrl(search.getText().toString());
+                    handle=true;
+                }
+                return handle;
+            }
+        });
+        actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
+                | ActionBar.DISPLAY_SHOW_HOME);
+    }
 }
