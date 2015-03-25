@@ -11,15 +11,12 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,6 +33,8 @@ public class MainActivity extends Activity {
     Bundle bundle;
     ArrayList<HashMap<String, String>> jsonArrayList = null;
     ListView forecastListView;
+    ModificaDatiJson modificaDatiJson;
+
 
 
     @Override
@@ -43,6 +42,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         forecastListView = (ListView) findViewById(R.id.forecastListView);
+        modificaDatiJson=new ModificaDatiJson();
 
     }
     public void onStart() {
@@ -54,7 +54,6 @@ public class MainActivity extends Activity {
     public void onStop() {
         super.onStop();
         unregisterReceiver(receiver);
-
     }
 
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -64,8 +63,6 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
-                //String città = "Roma";
-                //createUrl(città);
                 actionEditText();
                 return true;
             case R.id.action_refresh:
@@ -119,15 +116,12 @@ public class MainActivity extends Activity {
         HashMap<String, String> hashMap;
         for (int i = 0; i < jsonArrayList.size(); i++) {
             hashMap = jsonArrayList.get(i);
-            String giorno=conversioneData(hashMap.get(TAG_DT));
+            String giorno=modificaDatiJson.conversioneDataDaUnixTime(hashMap.get(TAG_DT));
             hashMap.put(TAG_DT,giorno);
-            String icon=getIcon(hashMap.get(TAG_ICON));
-            hashMap.put(TAG_ICON,getIcon(icon));
+            hashMap.put(TAG_ICON,modificaDatiJson.getIconId(modificaDatiJson.getIconId(hashMap.get(TAG_ICON))));
             Log.v("WEEKFORECAST","GIorno "+hashMap.get(TAG_DT));
         }
-
     }
-
     private void getAdapterForecast() {
         ListAdapter adapter = new SimpleAdapter(
                 MainActivity.this, jsonArrayList,
@@ -138,97 +132,6 @@ public class MainActivity extends Activity {
     }
 
 
-
-    private String conversioneData(String date) {
-        java.util.Date time = new java.util.Date(Long.parseLong(date) * 1000);
-        String temp=String.valueOf(time).substring(0,3);
-        switch (temp){
-            case "Mon":
-                temp="Lunedì";
-                break;
-            case "Tue":
-                temp="Martedì";
-                break;
-            case "Wed":
-                temp="Mercoledì";
-                break;
-            case "Thu":
-                temp="Giovedì";
-                break;
-            case "Fri":
-                temp="Venerdi";
-                break;
-            case "Sat":
-                temp="Sabato";
-                break;
-            case "Sun":
-                temp="Domenica";
-                break;
-            default:
-                break;
-        }
-        return temp;
-    }
-
-    public String getIcon(String iconId){
-        switch (iconId){
-            case "01d":
-                iconId=Integer.toString(R.drawable.ic_clear);
-                break;
-            case "01n":
-                iconId=Integer.toString(R.drawable.ic_clear);
-                break;
-            case "02d":
-                iconId=Integer.toString(R.drawable.ic_light_clouds);
-                break;
-            case "02n":
-                iconId=Integer.toString(R.drawable.ic_light_clouds);
-                break;
-            case "03d":
-                iconId=Integer.toString(R.drawable.ic_cloudy);
-                break;
-            case "03n":
-                iconId=Integer.toString(R.drawable.ic_cloudy);
-                break;
-            case "04d":
-                iconId=Integer.toString(R.drawable.ic_cloudy);
-                break;
-            case "04n":
-                iconId=Integer.toString(R.drawable.ic_cloudy);
-                break;
-            case "09d":
-                iconId=Integer.toString(R.drawable.ic_rain);
-                break;
-            case "09n":
-                iconId=Integer.toString(R.drawable.ic_rain);
-                break;
-            case "10d":
-                iconId=Integer.toString(R.drawable.ic_light_rain);
-                break;
-            case "10n":
-                iconId=Integer.toString(R.drawable.ic_light_rain);
-                break;
-            case "11d":
-                iconId=Integer.toString(R.drawable.ic_storm);
-                break;
-            case "11n":
-                iconId=Integer.toString(R.drawable.ic_storm);
-                break;
-            case "13d":
-                iconId=Integer.toString(R.drawable.ic_snow);
-                break;
-            case "13n":
-                iconId=Integer.toString(R.drawable.ic_snow);
-                break;
-            case "50d":
-                iconId=Integer.toString(R.drawable.ic_fog);
-                break;
-            case "50n":
-                iconId=Integer.toString(R.drawable.ic_fog);
-                break;
-        }
-        return iconId;
-    }
     public void actionEditText(){
         ActionBar actionBar=getActionBar();
         actionBar.setCustomView(R.layout.cercacitta);
