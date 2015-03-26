@@ -5,18 +5,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.inputmethodservice.InputMethodService;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import java.util.ArrayList;
@@ -31,10 +32,11 @@ public class MainActivity extends Activity {
     private final static String TAG_MAIN = "main";
     private final static String TAG_ICON="icon";
 
-    Bundle bundle;
-    ArrayList<HashMap<String, String>> jsonArrayList = null;
-    ListView forecastListView;
-    ModificaDatiJson modificaDatiJson;
+    private Bundle bundle;
+    private ArrayList<HashMap<String, String>> jsonArrayList = null;
+    private ListView forecastListView;
+    private ModificaDatiJson modificaDatiJson;
+    private ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,8 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         forecastListView = (ListView) findViewById(R.id.forecastListView);
         modificaDatiJson=new ModificaDatiJson();
+        spinner=(ProgressBar)findViewById(R.id.progressBar);
+        spinner.setVisibility(View.GONE);
 
     }
     public void onStart() {
@@ -76,6 +80,7 @@ public class MainActivity extends Activity {
 
 
     public void createUrl(String citta) {
+        spinner.setVisibility(View.VISIBLE);
         final String FREEMUSICARCHIVE_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
         final String FORMATO_JSON = "json";
         final String TIPO_DI_UNITA_DI_MISURA = "metric";
@@ -102,6 +107,7 @@ public class MainActivity extends Activity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            spinner.setVisibility(View.INVISIBLE);
             Log.v("WEEKFORECAST", "onReceiver partito");
             bundle = intent.getExtras();
             parseJson();
