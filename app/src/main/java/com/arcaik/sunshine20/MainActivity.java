@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -37,6 +38,11 @@ public class MainActivity extends Activity {
     private ListView forecastListView;
     private ProgressBar spinner;
     private Intent jsonServiceIntent;
+    private TextView textViewGiorno;
+    private TextView textViewCondizioniMeteo;
+    private TextView textViewTempMax;
+    private TextView textViewTempMin;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,11 @@ public class MainActivity extends Activity {
         forecastListView = (ListView) findViewById(R.id.forecastListView);
         spinner=(ProgressBar)findViewById(R.id.progressBar);
         spinner.setVisibility(View.GONE);
+        textViewGiorno=(TextView)findViewById(R.id.textViewGiornoMain);
+        textViewCondizioniMeteo=(TextView)findViewById(R.id.textViewCondizioniMeteoMain);
+        textViewTempMax=(TextView)findViewById(R.id.textViewTemperaturaMaxMain);
+        textViewTempMin=(TextView)findViewById(R.id.textViewTemperaturaMinMain);
+        imageView=(ImageView)findViewById(R.id.imageViewMain);
 
     }
     public void onStart() {
@@ -118,13 +129,21 @@ public class MainActivity extends Activity {
 
     public void parseJson() {
         jsonArrayList = (ArrayList<HashMap<String, String>>) bundle.get("ForecastList");
+        String giorno;
+        ModificaDatiJson modificaDatiJson=new ModificaDatiJson();
         HashMap<String, String> hashMap;
+        hashMap=jsonArrayList.get(0);
+        textViewGiorno.setText(modificaDatiJson.conversioneDataDaUnixTime(hashMap.get(TAG_DT)).toString());
+        textViewTempMax.setText(hashMap.get(TAG_TEMP_MAX).toString());
+        textViewTempMin.setText(hashMap.get(TAG_TEMP_MIN).toString());
+        textViewCondizioniMeteo.setText(hashMap.get(TAG_MAIN).toString());
+        imageView.setImageResource(Integer.parseInt(modificaDatiJson.getIconIdMainView(hashMap.get(TAG_ICON))));
+        jsonArrayList.remove(0);
         for (int i = 0; i < jsonArrayList.size(); i++) {
             hashMap = jsonArrayList.get(i);
-            ModificaDatiJson modificaDatiJson=new ModificaDatiJson();
-            String giorno=modificaDatiJson.conversioneDataDaUnixTime(hashMap.get(TAG_DT));
+            giorno=modificaDatiJson.conversioneDataDaUnixTime(hashMap.get(TAG_DT));
             hashMap.put(TAG_DT,giorno);
-            hashMap.put(TAG_ICON,modificaDatiJson.getIconId(modificaDatiJson.getIconId(hashMap.get(TAG_ICON))));
+            hashMap.put(TAG_ICON,modificaDatiJson.getIconIdListView(hashMap.get(TAG_ICON)));
             Log.v("WEEKFORECAST","GIorno "+hashMap.get(TAG_DT));
         }
     }
