@@ -1,23 +1,89 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <ListView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/forecastListView"
-        android:layout_gravity="left|top"
-        android:clickable="true"
-        />
+        android:layout_height="200dp"
+        android:background="@android:color/holo_blue_light">
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:layout_gravity="center" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Oggi,Giugno 18"
+            android:id="@+id/textViewGiornoMain"
+            android:textColor="@android:color/white"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="20dp"
+            android:textSize="22sp"
+            />
 
-</FrameLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="28°"
+            android:id="@+id/textViewTemperaturaMaxMain"
+            android:textSize="72sp"
+            android:textColor="@android:color/white"
+            android:layout_below="@+id/textViewGiornoMain"
+            android:layout_alignLeft="@+id/textViewGiornoMain"
+            android:layout_alignStart="@+id/textViewGiornoMain" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12°"
+            android:textSize="36sp"
+            android:textColor="@android:color/white"
+            android:id="@+id/textViewTemperaturaMinR"
+            android:layout_below="@+id/textViewTemperaturaMaxMain"
+            android:layout_alignLeft="@+id/textViewTemperaturaMaxMain"
+            android:layout_alignStart="@+id/textViewTemperaturaMaxMain" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imageViewMain"
+            android:src="@drawable/art_clear"
+            android:layout_alignTop="@+id/textViewTemperaturaMaxMain"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:id="@+id/textView"
+            android:gravity="left"
+            android:textSize="22sp"
+            android:textColor="@android:color/white"
+            android:layout_below="@+id/imageViewMain"
+            android:layout_alignRight="@+id/imageViewMain"
+            android:layout_marginRight="22dp"
+            android:layout_alignEnd="@+id/imageViewMain" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/forecastListView"
+            android:layout_gravity="left|top" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_gravity="center_horizontal|top" />
+    </FrameLayout>
+</LinearLayout>

@@ -35,15 +35,14 @@ public class MainActivity extends Activity {
     private Bundle bundle;
     private ArrayList<HashMap<String, String>> jsonArrayList = null;
     private ListView forecastListView;
-    private ModificaDatiJson modificaDatiJson;
     private ProgressBar spinner;
+    private Intent jsonServiceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         forecastListView = (ListView) findViewById(R.id.forecastListView);
-        modificaDatiJson=new ModificaDatiJson();
         spinner=(ProgressBar)findViewById(R.id.progressBar);
         spinner.setVisibility(View.GONE);
 
@@ -57,6 +56,7 @@ public class MainActivity extends Activity {
     public void onStop() {
         super.onStop();
         unregisterReceiver(receiver);
+        stopService(jsonServiceIntent);
     }
 
     public boolean onCreateOptionsMenu(final Menu menu) {
@@ -98,9 +98,9 @@ public class MainActivity extends Activity {
                 .appendQueryParameter(UNIT_FORMAT, TIPO_DI_UNITA_DI_MISURA)
                 .appendQueryParameter(DAYS_PARAM, NUMERO_GIORNI).build();
         Log.v("WEEKFORECAST", "HTTP " + builderUri);
-        Intent intent = new Intent(this, JSONService.class);
-        intent.setData(builderUri);
-        this.startService(intent);
+        jsonServiceIntent = new Intent(this, JSONService.class);
+        jsonServiceIntent.setData(builderUri);
+        this.startService(jsonServiceIntent);
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -121,6 +121,7 @@ public class MainActivity extends Activity {
         HashMap<String, String> hashMap;
         for (int i = 0; i < jsonArrayList.size(); i++) {
             hashMap = jsonArrayList.get(i);
+            ModificaDatiJson modificaDatiJson=new ModificaDatiJson();
             String giorno=modificaDatiJson.conversioneDataDaUnixTime(hashMap.get(TAG_DT));
             hashMap.put(TAG_DT,giorno);
             hashMap.put(TAG_ICON,modificaDatiJson.getIconId(modificaDatiJson.getIconId(hashMap.get(TAG_ICON))));
