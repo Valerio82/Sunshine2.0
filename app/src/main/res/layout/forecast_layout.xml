@@ -52,8 +52,8 @@
         android:textAppearance="?android:textAppearanceSmall"
         android:gravity="center"
         android:id="@+id/textViewTemperaturaMin"
-        android:layout_below="@+id/textViewTemperaturaMax"
-        android:layout_alignLeft="@+id/textViewTemperaturaMax"
-        android:layout_alignStart="@+id/textViewTemperaturaMax" />
+        android:layout_alignTop="@+id/textViewCondizioniMeteo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

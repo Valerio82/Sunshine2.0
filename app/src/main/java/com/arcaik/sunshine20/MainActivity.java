@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.inputmethodservice.InputMethodService;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,12 +13,12 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -34,8 +35,6 @@ public class MainActivity extends Activity {
     ArrayList<HashMap<String, String>> jsonArrayList = null;
     ListView forecastListView;
     ModificaDatiJson modificaDatiJson;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,8 +129,6 @@ public class MainActivity extends Activity {
                 R.id.textViewTemperaturaMax, R.id.textViewTemperaturaMin, R.id.textViewCondizioniMeteo,R.id.imageView});
         forecastListView.setAdapter(adapter);
     }
-
-
     public void actionEditText(){
         ActionBar actionBar=getActionBar();
         actionBar.setCustomView(R.layout.cercacitta);
@@ -144,6 +141,9 @@ public class MainActivity extends Activity {
                 if(actionId== EditorInfo.IME_ACTION_SEND) {
                     createUrl(search.getText().toString());
                     handle=true;
+                    //Nasconde la tastiera
+                    InputMethodManager imm=(InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(search.getWindowToken(),0);
                 }
                 return handle;
             }
