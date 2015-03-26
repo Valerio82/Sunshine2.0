@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
@@ -35,6 +36,7 @@ public class MainActivity extends Activity {
 
     private Bundle bundle;
     private ArrayList<HashMap<String, String>> jsonArrayList = null;
+    private ArrayList <HashMap<String,String>>jsonArrayListDetail=null;
     private ListView forecastListView;
     private ProgressBar spinner;
     private Intent jsonServiceIntent;
@@ -49,6 +51,14 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         forecastListView = (ListView) findViewById(R.id.forecastListView);
+        forecastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                startDetailActivity(position);
+
+            }
+        });
         spinner=(ProgressBar)findViewById(R.id.progressBar);
         spinner.setVisibility(View.GONE);
         textViewGiorno=(TextView)findViewById(R.id.textViewGiornoMain);
@@ -139,12 +149,13 @@ public class MainActivity extends Activity {
         textViewCondizioniMeteo.setText(hashMap.get(TAG_MAIN).toString());
         imageView.setImageResource(Integer.parseInt(modificaDatiJson.getIconIdMainView(hashMap.get(TAG_ICON))));
         jsonArrayList.remove(0);
+        jsonArrayListDetail=jsonArrayList;
         for (int i = 0; i < jsonArrayList.size(); i++) {
             hashMap = jsonArrayList.get(i);
             giorno=modificaDatiJson.conversioneDataDaUnixTime(hashMap.get(TAG_DT));
             hashMap.put(TAG_DT,giorno);
             hashMap.put(TAG_ICON,modificaDatiJson.getIconIdListView(hashMap.get(TAG_ICON)));
-            Log.v("WEEKFORECAST","GIorno "+hashMap.get(TAG_DT));
+            Log.v("WEEKFORECAST","GIorno "+hashMap.size());
         }
     }
     private void getAdapterForecast() {
@@ -176,5 +187,13 @@ public class MainActivity extends Activity {
         });
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
                 | ActionBar.DISPLAY_SHOW_HOME);
+    }
+
+    private void startDetailActivity(int position){
+        HashMap <String,String>hashMap=jsonArrayListDetail.get(position);
+        Log.v("MAINACTIVITY","DT "+hashMap.get(TAG_DT).toString()+" icon "+hashMap.get(TAG_ICON));
+        Intent startActivitDetail=new Intent(this,DetailActivity.class);
+        startActivitDetail.putExtra("DetailHashmap",hashMap);
+        startActivity(startActivitDetail);
     }
 }

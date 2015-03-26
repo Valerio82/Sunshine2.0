@@ -1,0 +1,99 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.arcaik.sunshine20.DetailActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:textSize="24sp"
+        android:id="@+id/textViewGiornoDetail"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:textSize="16sp"
+        android:id="@+id/textViewDataDetail"
+        android:layout_below="@+id/textViewGiornoDetail"
+        android:layout_alignLeft="@+id/textViewGiornoDetail"
+        android:layout_alignStart="@+id/textViewGiornoDetail" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10°"
+        android:id="@+id/textViewTemperaturaMaxDetail"
+        android:textSize="96sp"
+        android:layout_below="@+id/textViewDataDetail"
+        android:layout_marginLeft="50dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12°"
+        android:textSize="48sp"
+        android:id="@+id/textViewTemperaturaMinDetail"
+        android:layout_below="@+id/textViewTemperaturaMaxDetail"
+        android:layout_toRightOf="@+id/textViewDataDetail"
+        android:layout_toEndOf="@+id/textViewDataDetail" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:textSize="22sp"
+        android:id="@+id/textViewCondizioniMeteoDetail"
+        android:layout_alignBottom="@+id/textViewTemperaturaMinDetail"
+        android:layout_alignRight="@+id/imageViewDetail"
+        android:layout_alignEnd="@+id/imageViewDetail"
+        android:layout_marginRight="40dp"
+        android:layout_marginEnd="40dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageViewDetail"
+        android:src="@drawable/art_clear"
+        android:layout_alignTop="@+id/textViewTemperaturaMaxDetail"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:textSize="22sp"
+        android:id="@+id/textViewUmidità"
+        android:layout_below="@+id/textViewTemperaturaMinDetail"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="41dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:textSize="22sp"
+        android:id="@+id/textViewPressione"
+        android:layout_below="@+id/textViewUmidità"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:textSize="22sp"
+        android:id="@+id/textViewVento"
+        android:layout_below="@+id/textViewPressione"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+</RelativeLayout>

@@ -12,5 +12,6 @@
     <string name="imageview_icona_tempo">IconaTempo</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_detail">DetailActivity</string>
 
 </resources>
