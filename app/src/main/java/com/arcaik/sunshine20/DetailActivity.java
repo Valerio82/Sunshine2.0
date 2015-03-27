@@ -18,6 +18,9 @@ public class DetailActivity extends Activity {
     private final static String TAG_TEMP_MIN = "min";
     private final static String TAG_MAIN = "main";
     private final static String TAG_ICON="icon";
+    private final static String TAG_HUMIDITY="humidity";
+    private final static String TAG_PRESSURE="pressure";
+    private final static String TAG_WIND_SPEED="speed";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +34,17 @@ public class DetailActivity extends Activity {
         TextView textViewTempMax=(TextView)findViewById(R.id.textViewTemperaturaMaxDetail);
         TextView textViewTempMin=(TextView)findViewById(R.id.textViewTemperaturaMinDetail);
         TextView textViewCondizioniMeteo=(TextView)findViewById(R.id.textViewCondizioniMeteoDetail);
+        TextView textViewHumidity=(TextView)findViewById(R.id.textViewUmidità);
+        TextView textViewPressure=(TextView)findViewById(R.id.textViewPressione);
+        TextView textViewWind=(TextView)findViewById(R.id.textViewVento);
         ImageView imageViewIcon=(ImageView)findViewById(R.id.imageViewDetail);
         textViewGiorno.setText(hashMap.get(TAG_DT).toString());
         textViewTempMax.setText(hashMap.get(TAG_TEMP_MAX).toString());
         textViewTempMin.setText(hashMap.get(TAG_TEMP_MIN).toString());
         textViewCondizioniMeteo.setText(hashMap.get(TAG_MAIN.toString()));
+        textViewHumidity.setText("Umidità: "+hashMap.get(TAG_HUMIDITY.toString())+"%");
+        textViewPressure.setText("Pressione: "+hashMap.get(TAG_PRESSURE.toString())+"hPa");
+        textViewWind.setText("Vento: "+hashMap.get(TAG_WIND_SPEED.toString())+"Km/n");
         imageViewIcon.setImageResource(Integer.parseInt(modificaDatiJson.getIconIdMainView(hashMap.get(TAG_ICON))));
 
     }

@@ -1,5 +1,7 @@
 package com.arcaik.sunshine20;
 
+import android.util.Log;
+
 /**
  * Created by arcaik on 25/03/2015.
  */
@@ -7,6 +9,7 @@ public class ModificaDatiJson {
 
     public String conversioneDataDaUnixTime(String date) {
         java.util.Date time = new java.util.Date(Long.parseLong(date) * 1000);
+        Log.v("WEEKFORECAST","GIORNO"+time.toString());
         String temp=String.valueOf(time).substring(0,3);
         switch (temp){
             case "Mon":

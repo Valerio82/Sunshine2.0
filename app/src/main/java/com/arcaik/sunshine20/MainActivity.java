@@ -33,10 +33,11 @@ public class MainActivity extends Activity {
     private final static String TAG_TEMP_MIN = "min";
     private final static String TAG_MAIN = "main";
     private final static String TAG_ICON="icon";
+    private final static String TAG_ICON_ID_LISTVIEW="iconIdListView";
+    private final static String TAG_DATA="data";
 
     private Bundle bundle;
     private ArrayList<HashMap<String, String>> jsonArrayList = null;
-    private ArrayList <HashMap<String,String>>jsonArrayListDetail=null;
     private ListView forecastListView;
     private ProgressBar spinner;
     private Intent jsonServiceIntent;
@@ -149,20 +150,19 @@ public class MainActivity extends Activity {
         textViewCondizioniMeteo.setText(hashMap.get(TAG_MAIN).toString());
         imageView.setImageResource(Integer.parseInt(modificaDatiJson.getIconIdMainView(hashMap.get(TAG_ICON))));
         jsonArrayList.remove(0);
-        jsonArrayListDetail=jsonArrayList;
         for (int i = 0; i < jsonArrayList.size(); i++) {
             hashMap = jsonArrayList.get(i);
             giorno=modificaDatiJson.conversioneDataDaUnixTime(hashMap.get(TAG_DT));
-            hashMap.put(TAG_DT,giorno);
-            hashMap.put(TAG_ICON,modificaDatiJson.getIconIdListView(hashMap.get(TAG_ICON)));
+            hashMap.put(TAG_DATA,giorno);
+            hashMap.put(TAG_ICON_ID_LISTVIEW,modificaDatiJson.getIconIdListView(hashMap.get(TAG_ICON)));
             Log.v("WEEKFORECAST","GIorno "+hashMap.size());
         }
     }
     private void getAdapterForecast() {
         ListAdapter adapter = new SimpleAdapter(
                 MainActivity.this, jsonArrayList,
-                R.layout.forecast_layout, new String[]{TAG_DT, TAG_TEMP_MAX,
-                TAG_TEMP_MIN, TAG_MAIN,TAG_ICON}, new int[]{R.id.textViewGiorno,
+                R.layout.forecast_layout, new String[]{TAG_DATA, TAG_TEMP_MAX,
+                TAG_TEMP_MIN, TAG_MAIN,TAG_ICON_ID_LISTVIEW}, new int[]{R.id.textViewGiorno,
                 R.id.textViewTemperaturaMax, R.id.textViewTemperaturaMin, R.id.textViewCondizioniMeteo,R.id.imageView});
         forecastListView.setAdapter(adapter);
     }
@@ -190,8 +190,7 @@ public class MainActivity extends Activity {
     }
 
     private void startDetailActivity(int position){
-        HashMap <String,String>hashMap=jsonArrayListDetail.get(position);
-        Log.v("MAINACTIVITY","DT "+hashMap.get(TAG_DT).toString()+" icon "+hashMap.get(TAG_ICON));
+        HashMap <String,String>hashMap=jsonArrayList.get(position);
         Intent startActivitDetail=new Intent(this,DetailActivity.class);
         startActivitDetail.putExtra("DetailHashmap",hashMap);
         startActivity(startActivitDetail);
