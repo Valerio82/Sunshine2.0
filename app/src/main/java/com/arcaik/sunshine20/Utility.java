@@ -1,42 +1,46 @@
 package com.arcaik.sunshine20;
 
+
 import android.util.Log;
+import java.util.Date;
 
 /**
  * Created by arcaik on 25/03/2015.
  */
-public class ModificaDatiJson {
+public class Utility {
 
-    public String conversioneDataDaUnixTime(String date) {
-        java.util.Date time = new java.util.Date(Long.parseLong(date) * 1000);
-        Log.v("WEEKFORECAST","GIORNO"+time.toString());
-        String temp=String.valueOf(time).substring(0,3);
-        switch (temp){
+
+
+    public String getGiorno(String date) {
+        Date time = new Date(Long.parseLong(date) * 1000);
+        Log.v("WEEKFORECAST","GIORNO "+time.toString());
+        String giorno=String.valueOf(time).substring(0,3);
+        switch (giorno){
             case "Mon":
-                temp="Lunedì";
+                giorno="Lunedì";
                 break;
             case "Tue":
-                temp="Martedì";
+                giorno="Martedì";
                 break;
             case "Wed":
-                temp="Mercoledì";
+                giorno="Mercoledì";
                 break;
             case "Thu":
-                temp="Giovedì";
+                giorno="Giovedì";
                 break;
             case "Fri":
-                temp="Venerdi";
+                giorno="Venerdi";
                 break;
             case "Sat":
-                temp="Sabato";
+                giorno="Sabato";
                 break;
             case "Sun":
-                temp="Domenica";
+                giorno="Domenica";
                 break;
             default:
                 break;
         }
-        return temp;
+        return giorno;
     }
 
     public String getIconIdListView(String iconId){
@@ -156,6 +160,56 @@ public class ModificaDatiJson {
                 break;
         }
         return iconId;
+    }
+
+    public String getMese(String date){
+        Date time = new Date(Long.parseLong(date) * 1000);
+        String mese=String.valueOf(time).substring(4,7);
+        switch (mese){
+            case "Jan":
+                mese="Gennaio";
+                break;
+            case "Feb":
+                mese="Febbraio";
+                break;
+            case "Mar":
+                mese ="Marzo";
+                break;
+            case "Apr":
+                mese="Aprile";
+                break;
+            case "May":
+                mese="Maggio";
+                break;
+            case "Jun":
+                mese="Giugno";
+                break;
+            case "Jul":
+                mese="Luglio";
+                break;
+            case "Aug":
+                mese="Agosto";
+                break;
+            case "Sep":
+                mese="Settembre";
+                break;
+            case "Oct":
+                mese="Ottobre";
+                break;
+            case "Nov":
+                mese="Novembre";
+                break;
+            case "Dec":
+                mese="Dicembre";
+                break;
+        }
+        return mese;
+    }
+    public String getNumeroGiorno(String date){
+        Date time = new Date(Long.parseLong(date) * 1000);
+        String numeroGiorno=String.valueOf(time).substring(8,10);
+        return numeroGiorno;
+
     }
 
 }

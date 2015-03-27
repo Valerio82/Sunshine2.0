@@ -35,6 +35,7 @@ public class MainActivity extends Activity {
     private final static String TAG_ICON="icon";
     private final static String TAG_ICON_ID_LISTVIEW="iconIdListView";
     private final static String TAG_DATA="data";
+    private final static String LOG_NAME=MainActivity.class.getSimpleName();
 
     private Bundle bundle;
     private ArrayList<HashMap<String, String>> jsonArrayList = null;
@@ -55,9 +56,7 @@ public class MainActivity extends Activity {
         forecastListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 startDetailActivity(position);
-
             }
         });
         spinner=(ProgressBar)findViewById(R.id.progressBar);
@@ -119,7 +118,7 @@ public class MainActivity extends Activity {
                 .appendQueryParameter(FORMAT_MODE, FORMATO_JSON)
                 .appendQueryParameter(UNIT_FORMAT, TIPO_DI_UNITA_DI_MISURA)
                 .appendQueryParameter(DAYS_PARAM, NUMERO_GIORNI).build();
-        Log.v("WEEKFORECAST", "HTTP " + builderUri);
+        Log.v(LOG_NAME, "HTTP " + builderUri);
         jsonServiceIntent = new Intent(this, JSONService.class);
         jsonServiceIntent.setData(builderUri);
         this.startService(jsonServiceIntent);
@@ -130,7 +129,7 @@ public class MainActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             spinner.setVisibility(View.INVISIBLE);
-            Log.v("WEEKFORECAST", "onReceiver partito");
+            Log.v(LOG_NAME, "onReceiver partito");
             bundle = intent.getExtras();
             parseJson();
             getAdapterForecast();
@@ -141,21 +140,21 @@ public class MainActivity extends Activity {
     public void parseJson() {
         jsonArrayList = (ArrayList<HashMap<String, String>>) bundle.get("ForecastList");
         String giorno;
-        ModificaDatiJson modificaDatiJson=new ModificaDatiJson();
+        Utility utility=new Utility();
         HashMap<String, String> hashMap;
         hashMap=jsonArrayList.get(0);
-        textViewGiorno.setText(modificaDatiJson.conversioneDataDaUnixTime(hashMap.get(TAG_DT)).toString());
+        textViewGiorno.setText(utility.getGiorno(hashMap.get(TAG_DT)).toString()+","+utility.getMese(hashMap.get(TAG_DT))+" "+utility.getNumeroGiorno(hashMap.get(TAG_DT)));
         textViewTempMax.setText(hashMap.get(TAG_TEMP_MAX).toString());
         textViewTempMin.setText(hashMap.get(TAG_TEMP_MIN).toString());
         textViewCondizioniMeteo.setText(hashMap.get(TAG_MAIN).toString());
-        imageView.setImageResource(Integer.parseInt(modificaDatiJson.getIconIdMainView(hashMap.get(TAG_ICON))));
+        imageView.setImageResource(Integer.parseInt(utility.getIconIdMainView(hashMap.get(TAG_ICON))));
         jsonArrayList.remove(0);
         for (int i = 0; i < jsonArrayList.size(); i++) {
             hashMap = jsonArrayList.get(i);
-            giorno=modificaDatiJson.conversioneDataDaUnixTime(hashMap.get(TAG_DT));
+            giorno=utility.getGiorno(hashMap.get(TAG_DT));
             hashMap.put(TAG_DATA,giorno);
-            hashMap.put(TAG_ICON_ID_LISTVIEW,modificaDatiJson.getIconIdListView(hashMap.get(TAG_ICON)));
-            Log.v("WEEKFORECAST","GIorno "+hashMap.size());
+            hashMap.put(TAG_ICON_ID_LISTVIEW,utility.getIconIdListView(hashMap.get(TAG_ICON)));
+            Log.v(LOG_NAME,"GIorno "+hashMap.size());
         }
     }
     private void getAdapterForecast() {

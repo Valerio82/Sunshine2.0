@@ -3,7 +3,6 @@ package com.arcaik.sunshine20;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -21,16 +20,19 @@ public class DetailActivity extends Activity {
     private final static String TAG_HUMIDITY="humidity";
     private final static String TAG_PRESSURE="pressure";
     private final static String TAG_WIND_SPEED="speed";
+    private final static String TAG_DATA="data";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         Intent intent=getIntent();
+
         Bundle bundle=intent.getExtras();
         HashMap<String,String>hashMap= (HashMap<String, String>) bundle.get("DetailHashmap");
-        ModificaDatiJson modificaDatiJson=new ModificaDatiJson();
+        Utility utility=new Utility();
         TextView textViewGiorno=(TextView)findViewById(R.id.textViewGiornoDetail);
+        TextView textViewDettagliData=(TextView)findViewById(R.id.textViewDataDetail);
         TextView textViewTempMax=(TextView)findViewById(R.id.textViewTemperaturaMaxDetail);
         TextView textViewTempMin=(TextView)findViewById(R.id.textViewTemperaturaMinDetail);
         TextView textViewCondizioniMeteo=(TextView)findViewById(R.id.textViewCondizioniMeteoDetail);
@@ -38,14 +40,15 @@ public class DetailActivity extends Activity {
         TextView textViewPressure=(TextView)findViewById(R.id.textViewPressione);
         TextView textViewWind=(TextView)findViewById(R.id.textViewVento);
         ImageView imageViewIcon=(ImageView)findViewById(R.id.imageViewDetail);
-        textViewGiorno.setText(hashMap.get(TAG_DT).toString());
+        textViewGiorno.setText(hashMap.get(TAG_DATA).toString());
+        textViewDettagliData.setText(utility.getMese(hashMap.get(TAG_DT))+" "+utility.getNumeroGiorno(hashMap.get(TAG_DT)));
         textViewTempMax.setText(hashMap.get(TAG_TEMP_MAX).toString());
         textViewTempMin.setText(hashMap.get(TAG_TEMP_MIN).toString());
         textViewCondizioniMeteo.setText(hashMap.get(TAG_MAIN.toString()));
         textViewHumidity.setText("Umidità: "+hashMap.get(TAG_HUMIDITY.toString())+"%");
         textViewPressure.setText("Pressione: "+hashMap.get(TAG_PRESSURE.toString())+"hPa");
         textViewWind.setText("Vento: "+hashMap.get(TAG_WIND_SPEED.toString())+"Km/n");
-        imageViewIcon.setImageResource(Integer.parseInt(modificaDatiJson.getIconIdMainView(hashMap.get(TAG_ICON))));
+        imageViewIcon.setImageResource(Integer.parseInt(utility.getIconIdMainView(hashMap.get(TAG_ICON))));
 
     }
 
