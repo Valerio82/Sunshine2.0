@@ -41,8 +41,8 @@
             android:textColor="@android:color/white"
             android:id="@+id/textViewTemperaturaMinMain"
             android:layout_below="@+id/textViewTemperaturaMaxMain"
-            android:layout_alignLeft="@+id/textViewTemperaturaMaxMain"
-            android:layout_alignStart="@+id/textViewTemperaturaMaxMain" />
+            android:layout_alignRight="@+id/textViewTemperaturaMaxMain"
+            android:layout_alignEnd="@+id/textViewTemperaturaMaxMain" />
 
         <ImageView
             android:layout_width="100dp"

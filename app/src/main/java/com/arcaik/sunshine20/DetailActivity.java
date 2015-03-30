@@ -47,7 +47,7 @@ public class DetailActivity extends Activity {
         textViewCondizioniMeteo.setText(hashMap.get(TAG_MAIN.toString()));
         textViewHumidity.setText("Umidità: "+hashMap.get(TAG_HUMIDITY.toString())+"%");
         textViewPressure.setText("Pressione: "+hashMap.get(TAG_PRESSURE.toString())+"hPa");
-        textViewWind.setText("Vento: "+hashMap.get(TAG_WIND_SPEED.toString())+"Km/n");
+        textViewWind.setText("Vento: "+hashMap.get(TAG_WIND_SPEED.toString())+"Km/h");
         imageViewIcon.setImageResource(Integer.parseInt(utility.getIconIdMainView(hashMap.get(TAG_ICON))));
 
     }

@@ -47,6 +47,7 @@ public class MainActivity extends Activity {
     private TextView textViewTempMax;
     private TextView textViewTempMin;
     private ImageView imageView;
+    private boolean serviceStart=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class MainActivity extends Activity {
     public void onStop() {
         super.onStop();
         unregisterReceiver(receiver);
+        if(serviceStart==true)
         stopService(jsonServiceIntent);
     }
 
@@ -122,6 +124,7 @@ public class MainActivity extends Activity {
         jsonServiceIntent = new Intent(this, JSONService.class);
         jsonServiceIntent.setData(builderUri);
         this.startService(jsonServiceIntent);
+        serviceStart=true;
     }
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -142,20 +145,24 @@ public class MainActivity extends Activity {
         String giorno;
         Utility utility=new Utility();
         HashMap<String, String> hashMap;
-        hashMap=jsonArrayList.get(0);
-        textViewGiorno.setText(utility.getGiorno(hashMap.get(TAG_DT)).toString()+","+utility.getMese(hashMap.get(TAG_DT))+" "+utility.getNumeroGiorno(hashMap.get(TAG_DT)));
-        textViewTempMax.setText(hashMap.get(TAG_TEMP_MAX).toString());
-        textViewTempMin.setText(hashMap.get(TAG_TEMP_MIN).toString());
-        textViewCondizioniMeteo.setText(hashMap.get(TAG_MAIN).toString());
-        imageView.setImageResource(Integer.parseInt(utility.getIconIdMainView(hashMap.get(TAG_ICON))));
-        jsonArrayList.remove(0);
-        for (int i = 0; i < jsonArrayList.size(); i++) {
-            hashMap = jsonArrayList.get(i);
-            giorno=utility.getGiorno(hashMap.get(TAG_DT));
-            hashMap.put(TAG_DATA,giorno);
-            hashMap.put(TAG_ICON_ID_LISTVIEW,utility.getIconIdListView(hashMap.get(TAG_ICON)));
-            Log.v(LOG_NAME,"GIorno "+hashMap.size());
-        }
+        if(jsonArrayList.size()!=0) {
+
+            hashMap = jsonArrayList.get(0);
+            textViewGiorno.setText(utility.getGiorno(hashMap.get(TAG_DT)).toString() + "," + utility.getNumeroGiorno(hashMap.get(TAG_DT)) + " " + utility.getMese(hashMap.get(TAG_DT)));
+            textViewTempMax.setText(hashMap.get(TAG_TEMP_MAX).toString());
+            textViewTempMin.setText(hashMap.get(TAG_TEMP_MIN).toString());
+            textViewCondizioniMeteo.setText(hashMap.get(TAG_MAIN).toString());
+            imageView.setImageResource(Integer.parseInt(utility.getIconIdMainView(hashMap.get(TAG_ICON))));
+            jsonArrayList.remove(0);
+            for (int i = 0; i < jsonArrayList.size(); i++) {
+                hashMap = jsonArrayList.get(i);
+                giorno = utility.getGiorno(hashMap.get(TAG_DT));
+                hashMap.put(TAG_DATA, giorno);
+                hashMap.put(TAG_ICON_ID_LISTVIEW, utility.getIconIdListView(hashMap.get(TAG_ICON)));
+                Log.v(LOG_NAME, "GIorno " + hashMap.size());
+            }
+        }else
+            startService(jsonServiceIntent);
     }
     private void getAdapterForecast() {
         ListAdapter adapter = new SimpleAdapter(

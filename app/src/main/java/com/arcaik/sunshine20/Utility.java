@@ -9,8 +9,6 @@ import java.util.Date;
  */
 public class Utility {
 
-
-
     public String getGiorno(String date) {
         Date time = new Date(Long.parseLong(date) * 1000);
         Log.v("WEEKFORECAST","GIORNO "+time.toString());

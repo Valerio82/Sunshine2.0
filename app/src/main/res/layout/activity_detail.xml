@@ -33,7 +33,8 @@
         android:id="@+id/textViewTemperaturaMaxDetail"
         android:textSize="96sp"
         android:layout_below="@+id/textViewDataDetail"
-        android:layout_marginLeft="50dp" />
+        android:layout_alignLeft="@+id/textViewDataDetail"
+        android:layout_alignStart="@+id/textViewDataDetail" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -42,8 +43,8 @@
         android:textSize="48sp"
         android:id="@+id/textViewTemperaturaMinDetail"
         android:layout_below="@+id/textViewTemperaturaMaxDetail"
-        android:layout_toRightOf="@+id/textViewDataDetail"
-        android:layout_toEndOf="@+id/textViewDataDetail" />
+        android:layout_alignRight="@+id/textViewGiornoDetail"
+        android:layout_alignEnd="@+id/textViewGiornoDetail" />
 
     <TextView
         android:layout_width="wrap_content"

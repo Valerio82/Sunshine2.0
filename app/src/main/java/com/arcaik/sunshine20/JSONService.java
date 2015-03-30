@@ -63,7 +63,6 @@ public class JSONService extends IntentService {
         BufferedReader reader = null;
         String openweathermapJSON;
         URL url=new URL(builderUri.toString());
-
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
@@ -91,7 +90,6 @@ public class JSONService extends IntentService {
             try {
                 reader.close();
             }catch (IOException exc){
-
             }
     }
 
