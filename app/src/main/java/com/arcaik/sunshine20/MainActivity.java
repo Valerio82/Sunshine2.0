@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import java.util.ArrayList;
@@ -78,7 +76,7 @@ public class MainActivity extends Activity {
     public void onStop() {
         super.onStop();
         unregisterReceiver(receiver);
-        if(serviceStart==true)
+        if(serviceStart)
         stopService(jsonServiceIntent);
     }
 
@@ -124,10 +122,10 @@ public class MainActivity extends Activity {
         HashMap<String, String> hashMap;
         if(jsonArrayList.size()!=0) {
             hashMap = jsonArrayList.get(0);
-            textViewGiorno.setText(utility.getGiorno(hashMap.get(TAG_DT)).toString() + "," + utility.getNumeroGiorno(hashMap.get(TAG_DT)) + " " + utility.getMese(hashMap.get(TAG_DT)));
-            textViewTempMax.setText(hashMap.get(TAG_TEMP_MAX).toString());
-            textViewTempMin.setText(hashMap.get(TAG_TEMP_MIN).toString());
-            textViewCondizioniMeteo.setText(hashMap.get(TAG_MAIN).toString());
+            textViewGiorno.setText(utility.getGiorno(hashMap.get(TAG_DT))+ "," + utility.getNumeroGiorno(hashMap.get(TAG_DT)) + " " + utility.getMese(hashMap.get(TAG_DT)));
+            textViewTempMax.setText(hashMap.get(TAG_TEMP_MAX));
+            textViewTempMin.setText(hashMap.get(TAG_TEMP_MIN));
+            textViewCondizioniMeteo.setText(hashMap.get(TAG_MAIN));
             imageView.setImageResource(Integer.parseInt(utility.getIconIdMainView(hashMap.get(TAG_ICON))));
             jsonArrayList.remove(0);
             for (int i = 0; i < jsonArrayList.size(); i++) {
@@ -182,7 +180,7 @@ public class MainActivity extends Activity {
         spinner.setVisibility(View.VISIBLE);
         CreateJsonUrl url=new CreateJsonUrl("http://api.openweathermap.org/data/2.5/forecast/daily?",città);
         url.setApiKey("b4a73f1b4e9cafb494c82c3f8ce09690");
-        url.setdayNumber("7");
+        url.setNumberOfDays("7");
         url.setUnitFormat("metric");
         Log.v(LOG_NAME,"Second url"+url.getUri());
         jsonServiceIntent = new Intent(this, JSONService.class);

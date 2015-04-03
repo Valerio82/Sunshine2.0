@@ -40,14 +40,14 @@ public class DetailActivity extends Activity {
         TextView textViewPressure=(TextView)findViewById(R.id.textViewPressione);
         TextView textViewWind=(TextView)findViewById(R.id.textViewVento);
         ImageView imageViewIcon=(ImageView)findViewById(R.id.imageViewDetail);
-        textViewGiorno.setText(hashMap.get(TAG_DATA).toString());
+        textViewGiorno.setText(hashMap.get(TAG_DATA));
         textViewDettagliData.setText(utility.getMese(hashMap.get(TAG_DT))+" "+utility.getNumeroGiorno(hashMap.get(TAG_DT)));
-        textViewTempMax.setText(hashMap.get(TAG_TEMP_MAX).toString());
-        textViewTempMin.setText(hashMap.get(TAG_TEMP_MIN).toString());
-        textViewCondizioniMeteo.setText(hashMap.get(TAG_MAIN.toString()));
-        textViewHumidity.setText("Umidità: "+hashMap.get(TAG_HUMIDITY.toString())+"%");
-        textViewPressure.setText("Pressione: "+hashMap.get(TAG_PRESSURE.toString())+"hPa");
-        textViewWind.setText("Vento: "+hashMap.get(TAG_WIND_SPEED.toString())+"Km/h");
+        textViewTempMax.setText(hashMap.get(TAG_TEMP_MAX));
+        textViewTempMin.setText(hashMap.get(TAG_TEMP_MIN));
+        textViewCondizioniMeteo.setText(hashMap.get(TAG_MAIN));
+        textViewHumidity.setText("Umidità: "+hashMap.get(TAG_HUMIDITY)+"%");
+        textViewPressure.setText("Pressione: "+hashMap.get(TAG_PRESSURE)+"hPa");
+        textViewWind.setText("Vento: "+hashMap.get(TAG_WIND_SPEED)+"Km/h");
         imageViewIcon.setImageResource(Integer.parseInt(utility.getIconIdMainView(hashMap.get(TAG_ICON))));
 
     }
