@@ -97,8 +97,8 @@ public class JSONService extends IntentService {
         String dt;
         String temp_max;
         String temp_min;
-        String main=null;
-        String icon=null;
+        String main;
+        String icon;
         String pressure;
         String humidity;
         String wind;
@@ -113,23 +113,19 @@ public class JSONService extends IntentService {
         for(int i=0;i<jsonArray.length();i++){
             JSONObject list=jsonArray.getJSONObject(i);
             dt=(list.getString(TAG_DT));
-            Log.v("JSON","DT "+dt);
             pressure=(list.getString(TAG_PRESSURE));
             humidity=(list.getString(TAG_HUMIDITY));
             wind=(list.getString(TAG_WIND_SPEED));
             JSONObject temp=list.getJSONObject("temp");
             temp_max=arrotondamentoGradiCelsius(temp.getString(TAG_TEMP_MAX));
             temp_min=arrotondamentoGradiCelsius(temp.getString(TAG_TEMP_MIN));
-            Log.v("JSON","TEMP MIN MAX "+temp_max+" "+temp_min);
+            Log.v("JSON","temp max= "+temp_max);
+            Log.v("JSON","temp min= "+temp_min);
             JSONArray weatherArray=list.getJSONArray("weather");
-            for(int a=0;a<weatherArray.length();a++) {
-                JSONObject weather = weatherArray.getJSONObject(a);
-                main=weather.getString(TAG_MAIN);
-                icon=weather.getString(TAG_ICON);
-                Log.v("JSON","Weather Main "+main+" icon "+icon);
-            }
-
-          HashMap<String, String> forecast = new HashMap<>();
+            JSONObject weather = weatherArray.getJSONObject(0);
+            main=weather.getString(TAG_MAIN);
+            icon=weather.getString(TAG_ICON);
+            HashMap<String, String> forecast = new HashMap<>();
             forecast.put(TAG_DT,dt);
             forecast.put(TAG_PRESSURE,pressure);
             forecast.put(TAG_HUMIDITY,humidity);

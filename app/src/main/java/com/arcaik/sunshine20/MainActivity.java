@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import java.util.ArrayList;
@@ -36,7 +37,6 @@ public class MainActivity extends Activity {
     private final static String TAG_ICON_ID_LISTVIEW="iconIdListView";
     private final static String TAG_DATA="data";
     private final static String LOG_NAME=MainActivity.class.getSimpleName();
-
     private Bundle bundle;
     private ArrayList<HashMap<String, String>> jsonArrayList = null;
     private ListView forecastListView;
@@ -102,30 +102,7 @@ public class MainActivity extends Activity {
     }
 
 
-    public void createUrl(String citta) {
-        spinner.setVisibility(View.VISIBLE);
-        final String FREEMUSICARCHIVE_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
-        final String FORMATO_JSON = "json";
-        final String TIPO_DI_UNITA_DI_MISURA = "metric";
-        final String NUMERO_GIORNI = "7";
-        final String API_KEY = "b4a73f1b4e9cafb494c82c3f8ce09690";
-        final String QUERY_PARAM = "q";
-        final String API_ID_PARAM = "APPID";
-        final String FORMAT_MODE = "mode";
-        final String UNIT_FORMAT = "units";
-        final String DAYS_PARAM = "cnt";
-        Uri builderUri = Uri.parse(FREEMUSICARCHIVE_BASE_URL).buildUpon()
-                .appendQueryParameter(QUERY_PARAM, citta)
-                .appendQueryParameter(API_ID_PARAM, API_KEY)
-                .appendQueryParameter(FORMAT_MODE, FORMATO_JSON)
-                .appendQueryParameter(UNIT_FORMAT, TIPO_DI_UNITA_DI_MISURA)
-                .appendQueryParameter(DAYS_PARAM, NUMERO_GIORNI).build();
-        Log.v(LOG_NAME, "HTTP " + builderUri);
-        jsonServiceIntent = new Intent(this, JSONService.class);
-        jsonServiceIntent.setData(builderUri);
-        this.startService(jsonServiceIntent);
-        serviceStart=true;
-    }
+
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
 
@@ -146,7 +123,6 @@ public class MainActivity extends Activity {
         Utility utility=new Utility();
         HashMap<String, String> hashMap;
         if(jsonArrayList.size()!=0) {
-
             hashMap = jsonArrayList.get(0);
             textViewGiorno.setText(utility.getGiorno(hashMap.get(TAG_DT)).toString() + "," + utility.getNumeroGiorno(hashMap.get(TAG_DT)) + " " + utility.getMese(hashMap.get(TAG_DT)));
             textViewTempMax.setText(hashMap.get(TAG_TEMP_MAX).toString());
@@ -200,5 +176,18 @@ public class MainActivity extends Activity {
         Intent startActivitDetail=new Intent(this,DetailActivity.class);
         startActivitDetail.putExtra("DetailHashmap",hashMap);
         startActivity(startActivitDetail);
+    }
+
+    public void createUrl(String città){
+        spinner.setVisibility(View.VISIBLE);
+        CreateJsonUrl url=new CreateJsonUrl("http://api.openweathermap.org/data/2.5/forecast/daily?",città);
+        url.setApiKey("b4a73f1b4e9cafb494c82c3f8ce09690");
+        url.setdayNumber("7");
+        url.setUnitFormat("metric");
+        Log.v(LOG_NAME,"Second url"+url.getUri());
+        jsonServiceIntent = new Intent(this, JSONService.class);
+        jsonServiceIntent.setData(url.getUri());
+        this.startService(jsonServiceIntent);
+        serviceStart=true;
     }
 }
